@@ -11,8 +11,7 @@ from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 from src.exceptions import CustomException
 from src.logger import logging
-from src.utils import save_object
-from src.modules.data_ingestion import DataIngestion
+from src.utils import save_object   
 
 
 @dataclass
@@ -68,11 +67,11 @@ class DataTransformation:
         except Exception as e:
             raise CustomException(e, sys)
         
-    def initiate_data_transformation(self, train_data_path, test_test_path):
+    def initiate_data_transformation(self, train_data_path, test_data_path):
         try:
             train_df = pd.read_csv(train_data_path)
-            test_df = pd.read_csv(test_test_path)
-            logging.info(f"Reading train data {train_data_path} and test data {test_test_path}")
+            test_df = pd.read_csv(test_data_path)
+            logging.info(f"Reading train data {train_data_path} and test data {test_data_path}")
             
             logging.info("Obtaining preprocessor object...")
             preprocessing_obj = self.get_data_transformer_object()
@@ -103,10 +102,3 @@ class DataTransformation:
             return (train_arr, test_arr, self.data_transformation_config.preprocessor_obj_file_path)
         except Exception as e:
             raise CustomException(e, sys)
-        
-if __name__=="__main__":
-    obj = DataIngestion()
-    train_data, test_data = obj.initiate_data_ingestion()
-    
-    data_trans = DataTransformation()
-    data_trans.initiate_data_transformation(train_data, test_data)
